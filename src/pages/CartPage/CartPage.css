@@ -1,0 +1,25 @@
+/* Setting style for cart */
+.cartItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    background-color: white;
+}
+
+
+.cartItemImage {
+    width: 100px;
+    height: 100px;
+}
+
+.shoppingCart {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: white;
+    font-size: 70px;
+}

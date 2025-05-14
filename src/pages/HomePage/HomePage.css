@@ -1,0 +1,19 @@
+/*setting HomePage style specifications */
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: gray;
+}
+
+body {
+    background-color: grey;
+}
+
+.products {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: white;
+    font-size: 70px;
+}

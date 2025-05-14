@@ -1,0 +1,23 @@
+/* Integrated NavBar Stylizing */
+.navBar {
+    background-color: rgb(190, 190, 190);
+    justify-content: center;
+    display: flex;
+    border-radius: 5px;
+    align-items: center;
+    font-size: larger;
+    color: black;
+}
+
+.navBar:hover {
+    color: white;
+    background-color: rgb(236, 182, 64);
+}
+
+.navText {
+    color: rgb(0, 0, 0);
+}
+
+.navText:hover {
+    color: rgb(255, 255, 255);
+}
