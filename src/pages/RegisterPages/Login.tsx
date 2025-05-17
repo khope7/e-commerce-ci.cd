@@ -1,7 +1,7 @@
 // Login.tsx
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebase/firebaseConfig";
 
 const Login = () => {
@@ -16,15 +16,6 @@ const Login = () => {
       alert("Login successful!");
     } catch (err: any) {
       setError(err.message);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      alert("Logged out!");
-    } catch (err: any) {
-      console.error("Logout error:", err.message);
     }
   };
 
@@ -47,7 +38,6 @@ const Login = () => {
           <button type="submit">Login</button>
           {error && <p>{error}</p>}
         </form>
-        <button onClick={handleLogout}>Logout</button>
       </div>
     </>
   );

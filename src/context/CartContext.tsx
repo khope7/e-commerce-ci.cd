@@ -36,6 +36,7 @@ const cartReducer = (state: CartState, action: Action): CartState => {
                     ...state.items[existingItemIndex],
                     quantity: state.items[existingItemIndex].quantity + 1,
                 };
+                
                 //setting updatedAdditems to be a spread version of cart items
                 updatedAddItems = [...state.items];
                 //Finding specific item via index and updating the quantity of that item to itself +1 after running updated item 

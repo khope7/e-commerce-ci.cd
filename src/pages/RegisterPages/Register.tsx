@@ -3,14 +3,24 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../lib/firebase/firebaseConfig";
+import { db } from "../../lib/firebase/firebaseConfig";
+import { collection, addDoc } from 'firebase/firestore';
 import styles from "../../styles/auth-styles";
+
+interface User {
+  id?: string; // id is optional, as it will only be available after data is fetched
+  name: string;
+  age: number;
+}
 
 const Register = () => {
   const [email, setEmail] = useState<string>("");
   const [displayName, setDisplayName ] = useState<string>("")
+  const [newAge, setNewAge ] = useState<string>("")
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  
+  const [data, setData] = useState<Omit<User, 'id'>>({ name: '', age: 0 });
+
   const navigate = useNavigate()
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,13 +36,21 @@ const Register = () => {
         displayName: displayName,
       });
       navigate('/profile')
+      let str: string = newAge;
+      let num: number = Number(str);
+
+      data.name = displayName
+      data.age = num
+
+      await addDoc(collection(db, 'users'), data);
+      alert('Data added!');
+      setData({ name: '', age: 0 }); // reset form
     } catch (error: any) {
       setError(error.message);
     }
-  };
-
+  
   return (
-    <div style={styles.form}>
+    <div>
       <form onSubmit={handleRegister}>
         <input
           style={styles.input}
@@ -55,11 +73,19 @@ const Register = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <input
+        style={styles.input}
+        type="number"
+        placeholder="Age" 
+        value={newAge}
+        onChange={(e) => setNewAge(e.target.value)}
+        />
         <button style={styles.legend} type="submit">Register</button>
         {error && <p style={styles.error}>{error}</p>}
       </form>
     </div>
   );
-};
+}
+}
 
 export default Register;
