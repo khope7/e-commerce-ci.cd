@@ -17,8 +17,10 @@ const NavBar: React.FC = () => {
           <Nav.Link className="navText" href="/cart"> Shopping Cart |</Nav.Link>
           {user ? (
             <>
-              <Nav.Link className="navText" href="/data"> Create Data |</Nav.Link>
-              <Nav.Link className="navText" href="/show"> Show Data |</Nav.Link>
+              <Nav.Link className="navText" href="/createUser"> Create User |</Nav.Link>
+              <Nav.Link className="navText" href="/showUsers"> Show Users |</Nav.Link>
+              <Nav.Link className="navText" href="/createProduct"> Create Product |</Nav.Link>
+              <Nav.Link className="navText" href="/showProducts"> Show Products |</Nav.Link>
               <Nav.Link className="navText" href="/profile"> Profile |</Nav.Link>
               <Nav.Link className="navText" href="/logout"> Logout |</Nav.Link>
 

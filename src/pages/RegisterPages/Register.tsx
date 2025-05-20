@@ -8,12 +8,12 @@ import { collection, addDoc } from 'firebase/firestore';
 import styles from "../../styles/auth-styles";
 
 interface User {
-  id?: string; // id is optional, as it will only be available after data is fetched
+  id?: string;
   name: string;
   age: number;
 }
 
-const Register = () => {
+const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [displayName, setDisplayName ] = useState<string>("")
   const [newAge, setNewAge ] = useState<string>("")
@@ -47,6 +47,7 @@ const Register = () => {
       setData({ name: '', age: 0 }); // reset form
     } catch (error: any) {
       setError(error.message);
+    }
     }
   
   return (
@@ -85,7 +86,7 @@ const Register = () => {
       </form>
     </div>
   );
-}
+
 }
 
 export default Register;

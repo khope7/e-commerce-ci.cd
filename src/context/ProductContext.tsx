@@ -28,6 +28,7 @@ const productReducer = (
     switch (action.type) {
         case 'SET_PRODUCTS':
             return { ...state, products: action.payload};
+            
         case 'SET_SELECTED_CATEGORY':
             return {...state, selectedCategory: action.payload};
         default:
