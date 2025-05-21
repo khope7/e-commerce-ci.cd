@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { db } from '../lib/firebase/firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 import type { Product2 } from '../types/types';
+import { useQuery } from '@tanstack/react-query';
+import { fetchCategories } from '../api/api';
+import type { Category } from '../types/types';
 
 const AddProductForm = () => {
   const [item, setItem] = useState<Omit<Product2, 'quantity'>>({
@@ -13,9 +16,9 @@ const AddProductForm = () => {
     category: ''
     });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | HTMLSelectElement)  => {
     const { name, value } = e.target;
-    setItem({ ...item, [name]: name === 'id' || name === 'price' ? parseInt(value) : value });
+    setItem((prev) => ({ ...prev, [name]: ["id", "price"].includes(name) && !isNaN (Number(value)) ? parseInt(value) : value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,32 +38,29 @@ const AddProductForm = () => {
     }
   };
 
-  const [selected, setSelected] = useState<string>("");
-
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelected(event.target.value);
-    item.category = selected;
-  };
+    const { data: categories } = useQuery({
+      queryKey: ['categories'],
+      queryFn: fetchCategories,
+    });
 
   return (
+    <div>
     <form onSubmit={handleSubmit}>
       <p>Id: <input name="id" type="number" value={item.id} onChange={handleChange} placeholder="ID" /></p>
       <p>Product Name: <input name="title" value={item.title} onChange={handleChange} placeholder="Product Name" /></p>
       <p>Price: <input name="price" type="number" value={item.price} onChange={handleChange} placeholder="Price" /></p>
       <p>Product Description: <input name="description" value={item.description} onChange={handleChange} placeholder="Item Description" /></p>
-      <div>
-        <label htmlFor="categories">Choose an item category: </label>
-        <select id="categories" value={item.category} onChange={handleCategoryChange}>
-          <option value="Categories">-- Categories --</option>
-          <option value="electronics">electronics</option>
-          <option value="jewelry">jewelry</option>
-          <option value="men's clothing">men's clothing</option>
-          <option value="women's clothing">women's clothing</option>
+        <select value={item.category} onChange={handleChange}>
+          <option value=""> All Categories</option>
+          {categories?.data.map((category: Category) => (
+              <option value={category} key={category}>
+                  {category}
+          </option>
+          ))}
         </select>
-        <p>You selected: {selected}</p>
-      </div>
       <button type="submit">Add Product</button>
     </form>
+    </div>
   );
 };
 
