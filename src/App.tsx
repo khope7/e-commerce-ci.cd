@@ -66,9 +66,9 @@ import Login from "./pages/RegisterPages/Login"
 import Logout from "./pages/RegisterPages/Logout"
 import Register from "./pages/RegisterPages/Register"
 import AddUserForm from "./pages/data/DataForm"
-import DisplayUSer from "./pages/data/Firestore"
+import DisplayUser from "./pages/data/Firestore"
 import AddProductForm from "./Store Product/ProductForm"
-import DisplayProduct from "./Store Product/Productstore"
+import DisplayProduct from "./Store Product/ProductStore"
 import NavBar from "./components/NavBar/NavBar"
 
 
@@ -99,7 +99,7 @@ function App() {
                 <Route path="/logout" element={<Logout/>}/>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/createUser" element={<AddUserForm/>}/>
-                <Route path="/showUsers" element={<DisplayUSer/>}/>
+                <Route path="/showUsers" element={<DisplayUser/>}/>
                 <Route path="/createProduct" element={<AddProductForm/>}/>
                 <Route path="/showProducts" element={<DisplayProduct/>}/>
               </Routes>

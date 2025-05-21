@@ -3,9 +3,13 @@ import { db } from '../lib/firebase/firebaseConfig';
 import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 interface User {
-  id?: string;
+  id: string;
   name: string;
   age: number;
+}
+
+type UpdatedUserData = {
+  [key: string]: any
 }
 
 const DisplayUser = () => {
@@ -13,12 +17,12 @@ const DisplayUser = () => {
   const [newAge, setNewAge] = useState<string>('');
   const [newName, setNewName] = useState<string>('');
 
-const updateUser = async (userId, updatedData) => {
+const updateUser = async (userId: string, updatedData: UpdatedUserData) => {
     const userDoc = doc(db, 'users', userId);
     await updateDoc(userDoc, updatedData);
   };
 
-const deleteUser = async (userId) => {
+const deleteUser = async (userId: string) => {
     await deleteDoc(doc(db, 'users', userId))
   }
 
@@ -41,7 +45,7 @@ const deleteUser = async (userId) => {
       {users.map((user) => (
         <div
           key={user.id}
-          style={{ border: '2px solid black', margin: '10px' }}
+          style={{ backgroundColor: 'white', border: '2px solid black', margin: '10px' }}
         >
           <div key={user.id}>
             <p>Name: {user.name}</p>
@@ -64,6 +68,7 @@ const deleteUser = async (userId) => {
             Update Age
           </button>
            <button style={{ backgroundColor: 'crimson'}} onClick={() => deleteUser(user.id)}>Delete User</button>
+           <button>hello</button>
         </div>
       ))}
     </div>

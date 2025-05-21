@@ -16,7 +16,7 @@ const AddProductForm = () => {
     category: ''
     });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | HTMLSelectElement)  => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)  => {
     const { name, value } = e.target;
     setItem((prev) => ({ ...prev, [name]: ["id", "price"].includes(name) && !isNaN (Number(value)) ? parseInt(value) : value }));
   };
@@ -50,14 +50,19 @@ const AddProductForm = () => {
       <p>Product Name: <input name="title" value={item.title} onChange={handleChange} placeholder="Product Name" /></p>
       <p>Price: <input name="price" type="number" value={item.price} onChange={handleChange} placeholder="Price" /></p>
       <p>Product Description: <input name="description" value={item.description} onChange={handleChange} placeholder="Item Description" /></p>
-        <select value={item.category} onChange={handleChange}>
+        <select name="category" value={item.category} onChange={handleChange}>
           <option value=""> All Categories</option>
           {categories?.data.map((category: Category) => (
-              <option value={category} key={category}>
+          <option value={category} key={category}>
                   {category}
+          
           </option>
           ))}
+
         </select>
+          <p>You have selected: {item.category}</p>
+
+
       <button type="submit">Add Product</button>
     </form>
     </div>
