@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import { db } from '../lib/firebase/firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
-import type { Product2 } from '../types/types';
+import type { Product } from '../types/types';
 
 
 const DisplayProduct = () => {
-  const [product, setProduct] = useState<Product2[]>([]);
+  const [product, setProduct] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const querySnapshot = await getDocs(collection(db, 'products'));
       const dataArray = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
-      })) as Product2[];
+      })) as Product[];
       setProduct(dataArray);
     };
 

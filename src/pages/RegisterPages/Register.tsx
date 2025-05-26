@@ -6,11 +6,13 @@ import { auth } from "../../lib/firebase/firebaseConfig";
 import { db } from "../../lib/firebase/firebaseConfig";
 import { collection, addDoc } from 'firebase/firestore';
 import styles from "../../styles/auth-styles";
+import type { Product } from "../../types/types";
 
 interface User {
   id?: string;
   name: string;
   age: number;
+  userCart?: Product;
 }
 
 const Register: React.FC = () => {
@@ -44,7 +46,7 @@ const Register: React.FC = () => {
 
       await addDoc(collection(db, 'users'), data);
       alert('Data added!');
-      setData({ name: '', age: 0 }); // reset form
+      setData({ name: '', age: 0 });
     } catch (error: any) {
       setError(error.message);
     }

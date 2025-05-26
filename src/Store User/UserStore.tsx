@@ -20,10 +20,26 @@ const DisplayUser = () => {
 const updateUser = async (userId: string, updatedData: UpdatedUserData) => {
     const userDoc = doc(db, 'users', userId);
     await updateDoc(userDoc, updatedData);
+    setUsers((prevUsers) => prevUsers.map((user) => {
+      if (user.id === userId) {
+        const updatedUser: User = {
+          ...user,
+          ...updatedData,
+          // TypeScript guard: fallback to existing values if undefined
+          name: (updatedData.name ?? user.name),
+          age: (updatedData.age ?? user.age),
+        };
+        return updatedUser;
+      }
+      return user;
+    }))
+
+    
   };
 
 const deleteUser = async (userId: string) => {
     await deleteDoc(doc(db, 'users', userId))
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId))
   }
 
   useEffect(() => {
@@ -68,10 +84,10 @@ const deleteUser = async (userId: string) => {
             Update Age
           </button>
            <button style={{ backgroundColor: 'crimson'}} onClick={() => deleteUser(user.id)}>Delete User</button>
-           <button>hello</button>
         </div>
       ))}
     </div>
+
   );
 };
 

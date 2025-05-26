@@ -5,11 +5,27 @@ import { useProductContext } from '../../context/ProductContext'
 import ProductCard from '../../components/ProductCard/ProductCard'
 import { fetchProducts, fetchCategories } from '../../api/api'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { db } from '../../lib/firebase/firebaseConfig'
+import { collection, getDocs } from 'firebase/firestore';
 import './HomePage.css'
 
 //Creating HomePage function to show for original product API pull
 const HomePage: React.FC = () => {
     const {products, selectedCategory, dispatch} = useProductContext()
+    const [fireStoreProduct, setFireStoreProduct] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, 'products'));
+      const dataArray = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+      })) as Product[];
+      setFireStoreProduct(dataArray);
+    };
+
+    fetchData();
+  }, []);
 
     //Setting product fetch for axios useQuery method
     const {data: productsData } = useQuery({
@@ -60,7 +76,7 @@ const HomePage: React.FC = () => {
         <button onClick={() => dispatch({type: "SET_SELECTED_CATEGORY", payload: ""})}>Clear Filter</button>
         <div className='container'>
             {/* Sending all products to Product Card */}
-            {filteredProducts.map((product:Product) => (
+            {[...filteredProducts, ...fireStoreProduct].map((product:Product) => (
                 <ProductCard product={product} key={(product.id)} />
 
             ))}
