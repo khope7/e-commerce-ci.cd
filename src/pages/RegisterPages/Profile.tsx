@@ -1,10 +1,14 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
 import { useCart } from '../../context/CartContext'
+import { useAuth } from "../../context/AuthContext";
+import { User } from "firebase/auth";
+import { db } from "../../lib/firebase/firebaseConfig";
+import { collection, query } from "firebase/firestore";
 
 
 const auth = getAuth();
-
+const {user} = useAuth();
 
 export const Profile = () => {
   const [email, setEmail] = useState<string | null>("");
@@ -20,6 +24,10 @@ export const Profile = () => {
       console.log("No user is signed in.");
     }
   })
+
+  const fetchOrder = async (displayName) => {
+    const q = query(collection(db, "orders"), where("displayName", "==", user?.displayName))
+  }
 
   return (
     <div>

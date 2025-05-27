@@ -12,7 +12,6 @@ interface User {
   id?: string;
   name: string;
   age: number;
-  userCart?: Product;
 }
 
 const Register: React.FC = () => {

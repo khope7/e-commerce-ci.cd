@@ -4,6 +4,10 @@ import type { RootState, AppDispatch } from '../redux/store';
 import { increment, decrement } from '../redux/counterSlice';
 import { useCart } from '../../context/CartContext'
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../lib/firebase/firebaseConfig';
+
 
 //Implementing redux method to introduce increment, decrement and count methods to adjust for shopping cart orders
 const Counter = () => {
@@ -11,6 +15,7 @@ const Counter = () => {
    const dispatch = useDispatch<AppDispatch>();
    const { cartItems } = useCart();
    const [tcount, setTCount] = useState(0);
+   const {user} = useAuth()
 
 //Pulling shopping cart item total pricing from CartContext global method
   let total = 0;
@@ -19,9 +24,21 @@ const Counter = () => {
   }
 
 
+
 //Combining Shopping Cart Item price and redux count to show for users total price
-   const totalCount = () => {
+   const totalCount = async () => {
       setTCount(total * count)
+      const orderData = {
+         displayName: user?.displayName,
+         cart: cartItems,
+         total: tcount
+      }
+      try {
+         const docRef = await addDoc(collection(db, "orders"), orderData)
+      }
+      catch(error) {
+         console.error('Error saving order: ', error)
+      }
    };
 
    return (
