@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { db } from '../lib/firebase/firebaseConfig';
 import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 
+//Reintroducing User object and UpdatedUserData type as string
 interface User {
   id: string;
   name: string;
@@ -12,11 +13,14 @@ type UpdatedUserData = {
   [key: string]: any
 }
 
+// Setting use age and name usestate parameters
 const DisplayUser = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [newAge, setNewAge] = useState<string>('');
   const [newName, setNewName] = useState<string>('');
 
+
+//Allowing for update methods to adjust firebase data for specific based on user id from on-click
 const updateUser = async (userId: string, updatedData: UpdatedUserData) => {
     const userDoc = doc(db, 'users', userId);
     await updateDoc(userDoc, updatedData);
@@ -25,7 +29,6 @@ const updateUser = async (userId: string, updatedData: UpdatedUserData) => {
         const updatedUser: User = {
           ...user,
           ...updatedData,
-          // TypeScript guard: fallback to existing values if undefined
           name: (updatedData.name ?? user.name),
           age: (updatedData.age ?? user.age),
         };
@@ -33,10 +36,9 @@ const updateUser = async (userId: string, updatedData: UpdatedUserData) => {
       }
       return user;
     }))
-
-    
   };
 
+//Removing user from fb and repopulating list without deleted user
 const deleteUser = async (userId: string) => {
     await deleteDoc(doc(db, 'users', userId))
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId))

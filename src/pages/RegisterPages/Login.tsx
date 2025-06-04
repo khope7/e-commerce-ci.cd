@@ -4,6 +4,7 @@ import type { FormEvent } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebase/firebaseConfig";
 
+// Creating component page that allows users to log in with their email and password stored within firestore along with error catch
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

@@ -1,3 +1,5 @@
+//css for register page
+
 const styles = {
     form: {
         display: "flex",

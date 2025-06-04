@@ -1,11 +1,10 @@
-// Counter.tsx
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../redux/store';
 import { increment, decrement } from '../redux/counterSlice';
 import { useCart } from '../../context/CartContext'
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import { db } from '../../lib/firebase/firebaseConfig';
 
 
@@ -24,17 +23,21 @@ const Counter = () => {
   }
 
 
-
 //Combining Shopping Cart Item price and redux count to show for users total price
    const totalCount = async () => {
       setTCount(total * count)
+      const completeTotal = total * count
       const orderData = {
          displayName: user?.displayName,
          cart: cartItems,
-         total: tcount
+         total: completeTotal,
+         createdAt: Timestamp.now()
       }
       try {
+
+// Adding shopping cart total and time stamp to user data base within firestore
          const docRef = await addDoc(collection(db, "orders"), orderData)
+         alert(`Order added to ${user?.displayName}'s account.`)
       }
       catch(error) {
          console.error('Error saving order: ', error)

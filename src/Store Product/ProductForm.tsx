@@ -1,15 +1,16 @@
 // AddDataForm.tsx
 import React, { useState } from 'react';
 import { db } from '../lib/firebase/firebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, updateDoc } from 'firebase/firestore';
 import type { Product } from '../types/types';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCategories } from '../api/api';
 import type { Category } from '../types/types';
 
+//Creating shopping cart item users themselves can create and sending to firestore database
 const AddProductForm = () => {
   const [item, setItem] = useState<Omit<Product, 'quantity'>>({
-    id: 0,
+    id: '',
     title: '',
     price: 0,
     description: '',
@@ -17,7 +18,8 @@ const AddProductForm = () => {
     image: '',
     category: ''
     });
-
+    
+//Adds item to user cart
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)  => {
     const { name, value } = e.target;
     if (name === 'rating') {
@@ -32,13 +34,15 @@ const AddProductForm = () => {
     
   };
 
+//Creates item and resets fields for additional item creation
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await addDoc(collection(db, 'products'), item);
+      const docRef = await addDoc(collection(db, 'products'), {...item, id: ''});
+      await updateDoc(docRef, {id: docRef.id})
       alert('Data added!');
       setItem({
-      id: 0,
+      id: '',
       title: '',
       price: 0,
       description: '',
@@ -51,15 +55,16 @@ const AddProductForm = () => {
     }
   };
 
+  // fetching categories for drop down select
     const { data: categories } = useQuery({
       queryKey: ['categories'],
       queryFn: fetchCategories,
     });
 
+  //population fields on screen
   return (
     <div>
     <form onSubmit={handleSubmit}>
-      <p>Id: <input name="id" type="number" value={item.id} onChange={handleChange} placeholder="ID" /></p>
       <p>Product Name: <input name="title" value={item.title} onChange={handleChange} placeholder="Product Name" /></p>
       <p>Price: <input name="price" type="number" value={item.price} onChange={handleChange} placeholder="Price" /></p>
       <p>Product Description: <input name="description" value={item.description} onChange={handleChange} placeholder="Item Description" /></p>

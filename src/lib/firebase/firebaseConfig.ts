@@ -4,6 +4,7 @@ import { getAuth } from "firebase/auth";
 import type { Auth } from "firebase/auth";
 import { getFirestore } from 'firebase/firestore';
 
+// Pulling firebase api pull information from seperate env folder for security
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_API_KEY,
   authDomain: import.meta.env.VITE_APP_AUTH_DOMAIN,

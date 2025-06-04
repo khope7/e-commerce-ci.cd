@@ -1,6 +1,8 @@
+import type { Timestamp } from "firebase/firestore";
+
 // Initializing and sending each product as product array with constant variable values
 export interface Product {
-    id: number;
+    id: string;
     title: string;
     price: number;
     description: string;
@@ -14,6 +16,15 @@ export interface Product {
 interface Rating{
     rate: number;
     count: number
+}
+
+//Initiating Order object types
+export type Order = {
+    id: string;
+    displayName: string;
+    total: number;
+    cart: Product[];
+    createdAt: Timestamp;
 }
 
 //Sending Category as type string for global access

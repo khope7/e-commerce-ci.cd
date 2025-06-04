@@ -6,8 +6,8 @@ import { auth } from "../../lib/firebase/firebaseConfig";
 import { db } from "../../lib/firebase/firebaseConfig";
 import { collection, addDoc } from 'firebase/firestore';
 import styles from "../../styles/auth-styles";
-import type { Product } from "../../types/types";
 
+//Reintroducing user interfact and creating new suer and sending email display name age and password to firestore db
 interface User {
   id?: string;
   name: string;
@@ -24,6 +24,7 @@ const Register: React.FC = () => {
 
   const navigate = useNavigate()
 
+//Logging user in and sending user to profile page
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
@@ -44,13 +45,14 @@ const Register: React.FC = () => {
       data.age = num
 
       await addDoc(collection(db, 'users'), data);
-      alert('Data added!');
+      alert('User created!');
       setData({ name: '', age: 0 });
     } catch (error: any) {
       setError(error.message);
     }
     }
   
+//Introducing values for all user inputs
   return (
     <div>
       <form onSubmit={handleRegister}>

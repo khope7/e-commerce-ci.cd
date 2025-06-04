@@ -1,0 +1,7 @@
+/* Style for profile component */
+.orderContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,4 +1,3 @@
-//NavBar.tsx
 import { Nav, Navbar } from "react-bootstrap";
 import { useAuth } from "../../context/AuthContext";
 import React from "react";
@@ -15,6 +14,7 @@ const NavBar: React.FC = () => {
         <Nav >
           <Nav.Link className="navText" href="/"> Products |</Nav.Link>
           <Nav.Link className="navText" href="/cart"> Shopping Cart |</Nav.Link>
+          {/* Showing Certain Nav bars depending on user authentication */}
           {user ? (
             <>
               <Nav.Link className="navText" href="/createUser"> Create User |</Nav.Link>

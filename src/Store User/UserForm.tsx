@@ -1,14 +1,15 @@
-// AddUserForm.tsx
 import React, { useState } from 'react';
 import { db } from '../lib/firebase/firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 
+//Initiating User object and creating User for firestore db
 interface User {
   id?: string;
   name: string;
   age: number;
 }
 
+//Adding additional user to User database
 const AddUserForm = () => {
   const [data, setData] = useState<Omit<User, 'id'>>({ name: '', age: 0 });
 

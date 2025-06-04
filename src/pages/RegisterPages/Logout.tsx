@@ -1,6 +1,7 @@
 import { signOut } from "firebase/auth"
 import { auth } from "../../lib/firebase/firebaseConfig"
 
+// Using built in signOut method to return user state to default/null
 const control = ()   => {
 
   const onSignOut = () => {
