@@ -15,7 +15,7 @@ const control = ()   => {
 
   return (
       <div>
-        <button onClick={onSignOut} >Logout</button>
+        <button onClick={onSignOut} >Logging Out!</button>
       </div>
   )
 }
