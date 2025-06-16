@@ -3,7 +3,7 @@ import Logout from '../pages/RegisterPages/Logout'
 
 
 
-jest.mock('../../lib/firebase/firebaseConfig', () => ({
+jest.mock('../lib/firebase/firebaseConfig', () => ({
 auth: {
 currentUser: { email: 'test@example.com' },
 signOut: jest.fn(),
