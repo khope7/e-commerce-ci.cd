@@ -11,6 +11,8 @@ signOut: jest.fn(),
 db: {},
 }));
 
+
+
 test ('matches snapshot', () => {
     const {asFragment} = render(<Logout />);
 
