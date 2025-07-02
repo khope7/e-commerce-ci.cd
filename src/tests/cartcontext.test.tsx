@@ -1,19 +1,14 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CartPage from '../pages/CartPage/CartPage';
-// import Counter from '../components/redux/counter';
-// import { Timestamp } from 'firebase/firestore';
-// import type { Product } from '../types/types';
 import { CartProvider } from '../context/CartContext';
 import ProductCard from '../components/ProductCard/ProductCard';
 import { Provider } from 'react-redux';
 import { store } from '../components/redux/store';
 
-// jest.mock('../pages/CartPage/CartPage', () => ( {
-//     useCart: jest.fn()
-// }));
-
-// const mockCartPage = CartPage.useCart as jest.Mock
+jest.mock('@smastrom/react-rating', () => ({
+    Rating: () => <div data-testid='rating-component'/>  
+}))
 
 const mockcartItems = {
     id: '1',
@@ -26,33 +21,32 @@ const mockcartItems = {
     quantity: 2
 }
 
-// const mockTotalCount = {
-//     displayName: "Test Name",
-//     cart: mockcartItems,
-//     total: 5.00,
-//     createdAt: Timestamp.now()
-//     clearCart: jest.fn()
-//     removeFromCart: jest.fn(),
-// }
-
 describe('Cart Integration Test', () => {
     beforeEach(() => {
-    // mockCartPage.mockReturnValue({
-    //     cartItems: [{id:1, name:"test"}],
-    //     })
     sessionStorage.clear()
+    jest.spyOn(window, 'alert').mockImplementation(() => {})
     })
 
     test ('Should update the cart when a product is added', () => {
-        render(
-            <Provider store={store}>
-                <CartProvider>
-                    <ProductCard product={mockcartItems}/>
-                    <CartPage/>
-                </CartProvider>
-            </Provider>
-        )
-        const addToCart = screen.getByText(/Add to Cart/i)
-        fireEvent.click(addToCart)
+        try{
+            render(
+                <Provider store={store}>
+                    <CartProvider>
+                        <ProductCard product={mockcartItems}/>
+                        <CartPage/>
+                    </CartProvider>
+                </Provider>
+            )
+        } catch (e){
+            console.error('render fail', e)
+            throw e
+        }
+
+
+        const addToCartButton = screen.getByText(/Add to Cart/i)
+        fireEvent.click(addToCartButton)
+        const cartArea = screen.getByText(/Current shopping cart/i).closest('div')
+        expect(within(cartArea!).getByText(/Test product/i)).toBeInTheDocument()
+        expect(within(cartArea!).getByText(/Quantity: 1/i)).toBeInTheDocument()
     })
 })

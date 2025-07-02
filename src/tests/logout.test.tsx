@@ -1,7 +1,6 @@
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Logout from '../pages/RegisterPages/Logout'
-
-
+import { auth } from '../lib/firebase/firebaseConfig'
 
 jest.mock('../lib/firebase/firebaseConfig', () => ({
 auth: {
@@ -12,9 +11,16 @@ db: {},
 }));
 
 
+describe('Logout component', () => {
+    test ('matches snapshot', () => {
+        const {asFragment} = render(<Logout />);
 
-test ('matches snapshot', () => {
-    const {asFragment} = render(<Logout />);
-
-    expect(asFragment()).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
+    })
+    test ('Call signout when the button is clicked', () => {
+        const {getByText} = render(<Logout/>);
+        const button = getByText(/Logging Out!/i)
+        fireEvent.click(button)
+        expect(auth.signOut).toHaveBeenCalled()
+    })
 })
