@@ -3,12 +3,15 @@ import { render, screen } from '@testing-library/react'
 import * as CartContext from '../context/CartContext'
 import '@testing-library/jest-dom'
 
+// mocking CartContext for ProductCard as unit test
 jest.mock('../context/CartContext', () => ( {
     useCart: jest.fn()
 }));
 
+// Instantiating useCart object
 const mockUseCart = CartContext.useCart as jest.Mock
 
+// Creating CartItems Mock Object
 const mockProduct = {
     id: '1',
     title: 'Test Product',
@@ -20,6 +23,7 @@ const mockProduct = {
     quantity: 2
 }
 
+// Describing Product Card with add remove and clear cart functions along with default values
 describe('Product Card', () => {
     beforeEach(() => {
     mockUseCart.mockReturnValue({
@@ -30,6 +34,7 @@ describe('Product Card', () => {
         })
     })
 
+//Adding expected events for testing with try catch block
     test ('Renders product details.', () => {
         try{
             render(<ProductCard product={mockProduct}/>)

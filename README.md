@@ -1,4 +1,13 @@
-Hello! Here are the tasks for Module2 Assignment1
+Hello! Here are the tasks for Module2 Assignment2
+
+### Updates 2
+Project has been modified to include 2 unit test files for product card and log out components. As well as an integration test for the cart page using cart context and cart provider buttons for multi component functionality.
+
+Project also has CI/CD configured with CI corresponding with Git Hub as well as CD corresponding into Vercel, all functions are working
+
+Yaml and Bebel files have also been added along with scripts within package.json for CI/CD Functionality. Configurations have been made to both git hub and vercel as well.
+
+vercel.json has also been added to convert data for yaml env secrets.
 
 ### Updates
 For knowledge check, original project has been updated to include User authentication/register/login/logout, product creation, and user cart allocation

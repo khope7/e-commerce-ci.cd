@@ -6,10 +6,12 @@ import ProductCard from '../components/ProductCard/ProductCard';
 import { Provider } from 'react-redux';
 import { store } from '../components/redux/store';
 
+// Mocking CartPage to show functionality of ProducCard and CartItems
 jest.mock('@smastrom/react-rating', () => ({
     Rating: () => <div data-testid='rating-component'/>  
 }))
 
+// Creating CartItems Mock Object
 const mockcartItems = {
     id: '1',
     title: 'Test Product',
@@ -21,6 +23,7 @@ const mockcartItems = {
     quantity: 2
 }
 
+// Clearing session storage for each mock test, rendering product card and cart page within cart provider for button functionality
 describe('Cart Integration Test', () => {
     beforeEach(() => {
     sessionStorage.clear()
@@ -28,6 +31,7 @@ describe('Cart Integration Test', () => {
     })
 
     test ('Should update the cart when a product is added', () => {
+//Including try catch for error handling
         try{
             render(
                 <Provider store={store}>
@@ -42,7 +46,7 @@ describe('Cart Integration Test', () => {
             throw e
         }
 
-
+//Adding expected events for testing
         const addToCartButton = screen.getByText(/Add to Cart/i)
         fireEvent.click(addToCartButton)
         const cartArea = screen.getByText(/Current shopping cart/i).closest('div')

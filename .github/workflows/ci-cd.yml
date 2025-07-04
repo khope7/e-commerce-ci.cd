@@ -12,6 +12,7 @@ jobs:
   build: # Continuous integration
     runs-on: ubuntu-latest # This specifies the OS for the build environment
 
+    # Adding env secrets for vercel Integration
     env:
       VITE_APP_API_KEY: ${{ secrets.VITE_APP_API_KEY }}
       VITE_APP_AUTH_DOMAIN: ${{ secrets.VITE_APP_AUTH_DOMAIN }}
